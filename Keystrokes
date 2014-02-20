@@ -1,0 +1,30 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
+
+namespace ConsoleApplication1
+{
+    class Program
+    {
+        [DllImport("User32.dll")]
+        static extern int SetForegroundWindow(IntPtr point);
+
+        static void Main(string[] args)
+        {
+            Process p = Process.Start("Notepad.exe");
+            p.WaitForInputIdle();
+            IntPtr h = p.MainWindowHandle;
+            SetForegroundWindow(h);
+            SendKeys.SendWait("{ENTER}");
+            SendKeys.SendWait("{TAB}");
+            SendKeys.SendWait("Chr(75)");
+            SendKeys.SendWait("{ENTER}");
+            SendKeys.SendWait("goodbye");
+            SendKeys.Flush();
+        }
+    }
+}
